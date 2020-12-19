@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block stamp_button %}
+<button type="button" class="btn btn-primary">
+  Stamps  <span class="badge bg-dark px-2">{{ num_stamps }}</span>
+</button>
+{% endblock %}
+
+
+{% block content %}
+
+
+<center>
+<table class="my-5">
+  <tr>
+    <td colspan="{{ num_in_rows }}">
+      <a href="/add_stamp" style="text-decoration:none">
+        <div class="card text-dark bg-info" style="width: 10rem;">
+          <img src="{{ url_for('static', filename='plus-icon.png') }}" class="card-img-top" style="padding:50px">
+          <div class="card-body">
+            <center><h5 class="card-title">Add Stamp</h5></center>
+          </div>
+        </div>
+      </a>
+    </td>
+  </tr>
+  {% for category_name, stamps_list in stamps.items() %}
+    <tr>
+      <td style="background-color:#d1d1d1;background-clip:content-box;padding-top:20px;padding-bottom:20px" colspan="{{ num_in_rows }}">
+        <h1 class="mx-3 my-3">{{ category_name }}</h1>
+      </td>
+    </tr>
+    {% for row in stamps_list %}
+      <tr>
+        {% for col in row %}
+          <td style="padding:20px">
+            <div class="card text-dark" style="width: 10rem;">
+              {% if col.image %}
+                <img src="{{ url_for('stamp_image', filename=col.image) }}" class="card-img-top" style="padding:20px">
+              {% else %}
+                <img src="{{ url_for('static', filename='stamp-placeholder.png') }}" class="card-img-top" style="padding:20px">
+              {% endif %}
+              <div class="card-body">
+                <center><h5 class="card-title">{{ col.name }}</h5></center>
+              </div>
+            </div>
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  {% endfor %}
+</table>
+</center>
+
+{% endblock %}

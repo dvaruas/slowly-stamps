@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block user_button %}
+<button type="button" class="btn btn-primary">
+  Penpals  <span class="badge bg-dark px-2">{{ num_users }}</span>
+</button>
+{% endblock %}
+
+{% block content %}
+
+
+<center>
+<table class="my-5">
+  <tr>
+    <td style="background-color:#d1d1d1" colspan="{{ num_in_rows }}">
+      <h1 class="mx-3 my-5">PenPals</h1>
+    </td>
+  </tr>
+  {% for row in users %}
+    <tr>
+      {% for col in row %}
+        <td style="padding:20px">
+          {% if col == "add_user" %}
+          <a href="/add_user" style="text-decoration:none">
+            <div class="card text-dark bg-info" style="width: 10rem;">
+              <img src="{{ url_for('static', filename='plus-icon.png') }}" class="card-img-top" style="padding:50px">
+              <div class="card-body">
+                <center><h5 class="card-title">Add PenPal</h5></center>
+              </div>
+            </div>
+          </a>
+          {% else %}
+            <div class="card text-dark" style="width: 10rem;">
+              <a href="/user/{{ col.id }}" style="text-decoration:none">
+                {% if col.image %}
+                  <img src="{{ url_for('user_image', filename=col.image) }}" class="card-img-top" style="padding:20px">
+                {% else %}
+                  <img src="{{ url_for('static', filename='user-placeholder.jpg') }}" class="card-img-top" style="padding:20px">
+                {% endif %}
+              </a>
+              <div class="card-body">
+                <center><h5 class="card-title">{{ col.name }}</h5></center>
+              </div>
+            </div>
+          {% endif %}
+        </td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+</table>
+</center>
+
+{% endblock %}

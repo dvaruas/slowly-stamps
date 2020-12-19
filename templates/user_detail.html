@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<table style="width:100%" class="my-5">
+  <tr>
+    <td style="width:20%">
+      <div class="card text-dark" style="width: 10rem;">
+        {% if user_info.image_id %}
+          <img src="{{ url_for('user_image', filename=user_info.image_id) }}" class="card-img-top" style="padding:20px">
+        {% else %}
+          <img src="{{ url_for('static', filename='user-placeholder.jpg') }}" class="card-img-top" style="padding:20px">
+        {% endif %}
+        <div class="card-body">
+          <center>
+            <h5 class="card-title">{{ user_info.name }}</h5>
+            <button type="button" id="deletePal-{{ user_info.id }}" class="btn btn-outline-danger my-4 deletePalBtn">Delete</button>
+          </center>
+        </div>
+      </div>
+    </td>
+
+    <td rowspan="2">
+      <div class="overflow-auto" style="height:800px">
+        <table>
+          {% for category_name, stamps_list in stamps.items() %}
+            <tr>
+              <td style="background-color:#d1d1d1;background-clip:content-box;padding-top:20px;padding-bottom:20px" colspan="{{ num_in_rows }}">
+                <h1 class="mx-3 my-3">{{ category_name }}</h1>
+              </td>
+            </tr>
+            {% for row in stamps_list %}
+              <tr>
+                {% for col in row %}
+                  <td style="padding:20px">
+                    <div id="selectStamp-{{ col.id }}" class="card text-dark selectStampsList" style="width:10rem; cursor:pointer;">
+
+                      {% if col.image %}
+                        <img src="{{ url_for('stamp_image', filename=col.image) }}" class="card-img-top" style="padding:20px">
+                      {% else %}
+                        <img src="{{ url_for('static', filename='stamp-placeholder.png') }}" class="card-img-top" style="padding:20px">
+                      {% endif %}
+
+                      <div class="card-body">
+                        <center><h5 class="card-title">{{ col.name }}</h5></center>
+                      </div>
+                    </div>
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          {% endfor %}
+        </table>
+      </div>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="height:300px; padding:30px">
+      <div id="user-detail-alert" class="alert alert-warning alert-dismissible fade show d-none" role="alert">
+        <p id="user-detail-alert-text"></p>
+        <hr>
+        <a id="user-detail-alert-confirm" href="#" class="btn btn-sm btn-success">Confirm</a>
+        <button id="user-detail-alert-close" href="#" class="btn btn-sm btn-dark">Cancel</button>
+      </div>
+    </td>
+  </tr>
+</table>
+
+{% endblock %}

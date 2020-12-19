@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<center>
+<table class="my-5 w-50">
+  <tr>
+    <td style="background-color:#d1d1d1" colspan="2">
+      <h1 class="mx-5 my-5">Add New Stamp</h1>
+    </td>
+  </tr>
+  <form action="{{ url_for('add_new_stamp') }}" method="post" enctype="multipart/form-data">
+  <tr>
+    <div class="row g-2 my-5">
+      <td style="padding:30px">
+      <div class="col-md">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="inputStampName" placeholder="Enter name here" name="inputStampName" required>
+          <label for="inputStampName">Enter Stamp Name here (*)</label>
+        </div>
+      </div>
+      </td>
+      <td style="padding:30px">
+      <div class="col-md">
+        <div class="mb-3">
+          <label for="stampImage" class="form-label-sm">Upload Image</label>
+          <input class="form-control form-control-sm" id="stampImage" type="file" name="stampImage">
+        </div>
+      </div>
+      </td>
+    </div>
+  </tr>
+  <tr>
+    <td>
+      <h4 class="mx-2 my-2">Select Category</h4>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td style="width:50%">
+      {% for category in all_categories %}
+        <div class="input-group col-xs-2">
+          <div class="input-group-text">
+            <input class="form-check-input" type="radio" name="category-radio" value="{{ category.cid }}" id="category-{{ category.cid }}">
+          </div>
+          <input type="text" class="form-control" value="{{ category.cname }}" disabled>
+        </div>
+      {% endfor %}
+
+      <div class="input-group col-xs-2">
+        <div class="input-group-text">
+          <input class="form-check-input" type="radio" name="category-radio" value="newCategory" id="new-category">
+        </div>
+        <input id="newCategoryTextArea" type="text" class="form-control" name="newCategoryName" disabled>
+      </div>
+
+    </td>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <button id="stampSubmitButton" type="submit" class="btn btn-primary mx-2 mt-5" disbaled>Submit</button>
+      <a href="/users">
+        <button type="button" class="btn btn-primary mx-2 mt-5">Cancel</button>
+      </a>
+    </td>
+  </tr>
+  </form>
+</table>
+</center>
+
+{% endblock %}
