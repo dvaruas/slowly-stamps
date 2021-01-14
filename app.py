@@ -111,6 +111,8 @@ def add_new_user():
     conn = db.cursor()
     if request.method == 'POST':
         penPalName = request.form['penPalName'].strip()
+        penPalName = penPalName.replace("'", "''")
+
         penPalImage = request.files.get('penPalImage', None)
         new_file_name = None
         if penPalImage and penPalImage.filename != '':
@@ -119,11 +121,12 @@ def add_new_user():
                 if new_file_name not in os.listdir(USER_IMAGES_PATH):
                     break
             penPalImage.save(os.path.join(USER_IMAGES_PATH, new_file_name))
-        penPalName = penPalName.replace("'", "''")
+
         if new_file_name:
             conn.execute(f"insert into users (name, image_id) values ('{penPalName}', '{new_file_name}')")
         else:
             conn.execute(f"insert into users (name) values ('{penPalName}')")
+
         db.commit()
         conn.close()
         return redirect(url_for('list_users'))
@@ -134,6 +137,44 @@ def add_new_user():
         num_stamps = conn.fetchone()[0]
         conn.close()
         return render_template("add_user.html", num_users=num_users, num_stamps=num_stamps)
+
+@app.route('/edit/<userid>', methods=['GET', 'POST'])
+def edit_existing_user(userid):
+    db = sqlite3.connect(DB_PATH)
+    conn = db.cursor()
+    if request.method == 'POST':
+        conn.execute(f"select name, image_id from users where id is {userid}")
+        prev_name, prev_image_id = conn.fetchone()
+
+        penPalName = request.form['penPalName'].strip()
+        if penPalName != prev_name:
+            penPalName = penPalName.replace("'", "''")
+            conn.execute(f"update users set name = '{penPalName}' where id is {userid}")
+
+        penPalImage = request.files.get('penPalImage', None)
+        new_file_name = None
+        if penPalImage and penPalImage.filename != '':
+            while True:
+                new_file_name = ''.join((random.choice(string.ascii_letters + string.digits) for i in range(10)))
+                if new_file_name not in os.listdir(USER_IMAGES_PATH):
+                    break
+            penPalImage.save(os.path.join(USER_IMAGES_PATH, new_file_name))
+            os.remove(os.path.join(USER_IMAGES_PATH, prev_image_id))
+            conn.execute(f"update users set image_id = '{new_file_name}' where id is {userid}")
+
+        db.commit()
+        conn.close()
+        return redirect(url_for('list_users'))
+    else:
+        conn.execute("select count(*) from users")
+        num_users = conn.fetchone()[0]
+        conn.execute("select count(*) from stamps")
+        num_stamps = conn.fetchone()[0]
+        conn.execute(f"select name, image_id from users where id is {userid}")
+        user_name, user_image_id = conn.fetchone()
+        conn.close()
+        return render_template("edit_user.html", num_users=num_users, num_stamps=num_stamps,
+            user_id=userid, user_name=user_name, user_image_id=user_image_id)
 
 
 @app.route('/delete/<userid>')

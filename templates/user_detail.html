@@ -14,7 +14,12 @@
         <div class="card-body">
           <center>
             <h5 class="card-title">{{ user_info.name }}</h5>
-            <button type="button" id="deletePal-{{ user_info.id }}" class="btn btn-outline-danger my-4 deletePalBtn">Delete</button>
+            <div class="btn-group mt-3" role="group">
+              <a href="/edit/{{ user_info.id }}" style="text-decoration:none">
+                <button type="button" id="editPal-{{ user_info.id}}" class="btn btn-outline-primary">Edit</button>
+              </a>
+              <button type="button" id="deletePal-{{ user_info.id }}" class="btn btn-outline-danger deletePalBtn">Delete</button>
+            </div>
           </center>
         </div>
       </div>
