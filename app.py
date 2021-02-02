@@ -316,4 +316,4 @@ if __name__ == '__main__':
         "stamp_id INTEGER references stamps(id) ON DELETE CASCADE)")
     conn.close()
 
-    app.run()
+    app.run(host='0.0.0.0')
