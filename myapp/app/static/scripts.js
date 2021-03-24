@@ -25,16 +25,15 @@ $("#staticBackdrop").on("show.bs.modal", function(e) {
     }
 
     $("#common-modal-body").html(`
-      <table>
-        <tr>
-          <td>
+      <div class="container">
+        <div class="row">
+          <div class="col-3">
             <img src="${imageHref}" height="100" width="100">
-          </td>
-          <td  style="padding:20px">
+          </div>
+          <div class="col-9">
             <span>Are you sure you wish to delete <b>${userName}</b>? Beware, all data will be lost forever!</span>
-          </td>
-        </tr>
-      </table>`);
+          </div>
+        </div>`);
     $("#common-modal-confirm-btn").removeClass("btn-primary").addClass("btn-danger");
     $("#common-modal-confirm-link").attr("href", `/delete/${userId}`);
 
@@ -48,25 +47,29 @@ $("#staticBackdrop").on("show.bs.modal", function(e) {
       let stampImageId = sImageId.substring(6);
       stampHref = `/stamp_image/${stampImageId}`;
     }
-    let stampName = $(e.relatedTarget).find("h5").html();
+    let stampName = $(e.relatedTarget).find("span").html();
 
     $(e.relatedTarget).removeClass("text-dark");
     $(e.relatedTarget).addClass("text-white");
     $(e.relatedTarget).addClass("bg-secondary");
 
     $("#common-modal-body").html(`
-      <table>
-        <tr>
-          <td>
+      <div class="container">
+        <div class="row">
+          <div class="col-3">
             <img src="${stampHref}" height="100" width="100">
-          </td>
-          <td  style="padding:20px">
+          </div>
+          <div class="col-9">
             <span>Are you sure you wish to use stamp <b>${stampName}</b> for your pal <b>${userName}</b></span>?
-          </td>
-        </tr>
-      </table>`);
+          </div>
+        </div>`);
     $("#common-modal-confirm-link").attr("href", `/use/${userId}-${stampID}`);
   }
+});
+
+$("#staticBackdrop").on("shown.bs.modal", function(e) {
+  // bootstrap keeps adding padding to the harmless user pic, restore our values ignoring bootstrap!
+  $(".sw-display-card-nostyle").css({"padding-right" : "0px", "margin-right" : "10px"});
 });
 
 $("#common-modal-cancel-btn").click(function() {

@@ -7,47 +7,34 @@
 {% endblock %}
 
 {% block content %}
-
-
-<center>
-<table class="my-5">
-  <tr>
-    <td style="background-color:#d1d1d1" colspan="{{ num_in_rows }}">
-      <h1 class="mx-3 my-5">PenPals</h1>
-    </td>
-  </tr>
-  {% for row in users %}
-    <tr>
-      {% for col in row %}
-        <td style="padding:20px">
-          {% if col == "add_user" %}
-          <a href="/add_user" style="text-decoration:none">
-            <div class="card text-dark bg-info" style="width: 10rem;">
-              <img src="{{ url_for('static', filename='plus-icon.png') }}" class="card-img-top" style="padding:50px">
-              <div class="card-body">
-                <center><h5 class="card-title">Add PenPal</h5></center>
-              </div>
-            </div>
-          </a>
+<div class="mx-auto w-75">
+  <div class="sw-page-header">PenPals</div>
+  <div class="d-flex flex-wrap justify-content-center">
+    <!-- Add new user card -->
+    <a href="/add_user">
+      <div class="card text-dark bg-info sw-display-card">
+        <img src="{{ url_for('static', filename='plus-icon.png') }}" class="card-img-top sw-add-card-img">
+        <div class="card-body text-center">
+          <span class="card-title sw-card-text">Add PenPal</span>
+        </div>
+      </div>
+    </a>
+    <!-- Existing users -->
+    {% for user in users %}
+      <div class="card text-dark sw-display-card">
+        <a href="/user/{{ user.id }}">
+          {% if user.image %}
+            <img src="{{ url_for('slowly-module.user_image', filename=user.image) }}" class="card-img-top sw-card-img">
           {% else %}
-            <div class="card text-dark" style="width: 10rem;">
-              <a href="/user/{{ col.id }}" style="text-decoration:none">
-                {% if col.image %}
-                  <img src="{{ url_for('slowly-module.user_image', filename=col.image) }}" class="card-img-top" style="padding:20px">
-                {% else %}
-                  <img src="{{ url_for('static', filename='user-placeholder.jpg') }}" class="card-img-top" style="padding:20px">
-                {% endif %}
-              </a>
-              <div class="card-body">
-                <center><h5 class="card-title">{{ col.name }}</h5></center>
-              </div>
-            </div>
+            <img src="{{ url_for('static', filename='user-placeholder.jpg') }}" class="card-img-top sw-card-img">
           {% endif %}
-        </td>
-      {% endfor %}
-    </tr>
-  {% endfor %}
-</table>
-</center>
+        </a>
+        <div class="card-body text-center">
+          <span class="card-title sw-card-text">{{ user.name }}</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
 
 {% endblock %}

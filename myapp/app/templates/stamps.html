@@ -9,47 +9,42 @@
 
 {% block content %}
 
-
-<center>
-<table class="my-5">
-  <tr>
-    <td colspan="{{ num_in_rows }}">
-      <a href="/add_stamp" style="text-decoration:none">
-        <div class="card text-dark bg-info" style="width: 10rem;">
-          <img src="{{ url_for('static', filename='plus-icon.png') }}" class="card-img-top" style="padding:50px">
-          <div class="card-body">
-            <center><h5 class="card-title">Add Stamp</h5></center>
+<div class="container-fluid w-75">
+  <div class="row">
+    <div class="col">
+      <a href="/add_stamp">
+        <div class="card text-dark bg-info sw-display-card">
+          <img src="{{ url_for('static', filename='plus-icon.png') }}" class="card-img-top sw-add-card-img">
+          <div class="card-body text-center">
+            <span class="card-title sw-card-text">Add Stamp</span>
           </div>
         </div>
       </a>
-    </td>
-  </tr>
-  {% for category_name, stamps_list in stamps.items() %}
-    <tr>
-      <td style="background-color:#d1d1d1;background-clip:content-box;padding-top:20px;padding-bottom:20px" colspan="{{ num_in_rows }}">
-        <h1 class="mx-3 my-3">{{ category_name }}</h1>
-      </td>
-    </tr>
-    {% for row in stamps_list %}
-      <tr>
-        {% for col in row %}
-          <td style="padding:20px">
-            <div class="card text-dark" style="width: 10rem;">
-              {% if col.image %}
-                <img src="{{ url_for('slowly-module.stamp_image', filename=col.image) }}" class="card-img-top" style="padding:20px">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      {% for category_name, stamps_list in stamps.items() %}
+        <div class="sw-page-header">{{ category_name }}</div>
+        <div class="d-flex flex-wrap justify-content-center">
+          {% for stamp in stamps_list %}
+            <div class="card text-dark sw-display-card">
+              {% if stamp.image %}
+                <img src="{{ url_for('slowly-module.stamp_image', filename=stamp.image) }}"
+                  class="card-img-top sw-card-img">
               {% else %}
-                <img src="{{ url_for('static', filename='stamp-placeholder.png') }}" class="card-img-top" style="padding:20px">
+                <img src="{{ url_for('static', filename='stamp-placeholder.png') }}"
+                  class="card-img-top sw-card-img">
               {% endif %}
-              <div class="card-body">
-                <center><h5 class="card-title">{{ col.name }}</h5></center>
+              <div class="card-body text-center">
+                <span class="card-title sw-card-text">{{ stamp.name }}</span>
               </div>
             </div>
-          </td>
-        {% endfor %}
-      </tr>
-    {% endfor %}
-  {% endfor %}
-</table>
-</center>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
 {% endblock %}

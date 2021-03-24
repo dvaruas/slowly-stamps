@@ -2,69 +2,55 @@
 
 {% block content %}
 
-<table style="width:100%" class="my-5">
-  <tr>
-    <td style="width:20%">
-      <div class="card text-dark" style="width: 10rem;">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2 order-first">
+      <div class="sticky-top card text-dark sw-display-card-nostyle">
         {% if user_info.image_id %}
-          <img src="{{ url_for('slowly-module.user_image', filename=user_info.image_id) }}" id="user-{{ user_info.image_id }}" class="card-img-top user-image" style="padding:20px">
+          <img src="{{ url_for('slowly-module.user_image', filename=user_info.image_id) }}"
+            id="user-{{ user_info.image_id }}" class="card-img-top user-image sw-card-img">
         {% else %}
-          <img src="{{ url_for('static', filename='user-placeholder.jpg') }}" class="card-img-top user-image" style="padding:20px">
+          <img src="{{ url_for('static', filename='user-placeholder.jpg') }}"
+            class="card-img-top user-image sw-card-img">
         {% endif %}
-        <div class="card-body">
-          <center>
-            <h5 class="card-title user-name">{{ user_info.name }}</h5>
-            <div class="btn-group mt-3" role="group">
-              <a href="/edit/{{ user_info.id }}" style="text-decoration:none">
-                <button type="button" id="editPal-{{ user_info.id}}" class="btn btn-outline-primary">Edit</button>
-              </a>
-              <button type="button" id="deletePal-{{ user_info.id }}" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-outline-danger deletePalBtn">Delete</button>
-            </div>
-          </center>
+        <div class="card-body text-center">
+          <span class="card-title user-name sw-card-text">{{ user_info.name }}</span>
+          <div class="btn-group mt-3" role="group">
+            <a href="/edit/{{ user_info.id }}">
+              <button type="button" id="editPal-{{ user_info.id}}" class="btn btn-outline-primary">Edit</button>
+            </a>
+            <button type="button" id="deletePal-{{ user_info.id }}" data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop" class="btn btn-outline-danger deletePalBtn">Delete</button>
+          </div>
         </div>
       </div>
-    </td>
+    </div>
+    <div class="col-10">
+      {% for category_name, stamps_list in stamps.items() %}
+        <div class="sw-page-header">{{ category_name }}</div>
+        <div class="d-flex flex-wrap justify-content-center">
+          {% for stamp in stamps_list %}
+            <div id="selectStamp-{{ stamp.id }}" class="card text-dark selectStampsList sw-display-card sw-show-link"
+              data-bs-toggle="modal" data-bs-target="#staticBackdrop">
 
-    <td rowspan="2">
-      <div class="overflow-auto" style="height:800px">
-        <table>
-          {% for category_name, stamps_list in stamps.items() %}
-            <tr>
-              <td style="background-color:#d1d1d1;background-clip:content-box;padding-top:20px;padding-bottom:20px" colspan="{{ num_in_rows }}">
-                <h1 class="mx-3 my-3">{{ category_name }}</h1>
-              </td>
-            </tr>
-            {% for row in stamps_list %}
-              <tr>
-                {% for col in row %}
-                  <td style="padding:20px">
-                    <div id="selectStamp-{{ col.id }}" class="card text-dark selectStampsList" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="width:10rem;cursor:pointer;">
+              {% if stamp.image %}
+                <img src="{{ url_for('slowly-module.stamp_image', filename=stamp.image) }}"
+                  id="stamp-{{ stamp.image }}" class="card-img-top sw-card-img">
+              {% else %}
+                <img src="{{ url_for('static', filename='stamp-placeholder.png') }}"
+                  class="card-img-top sw-card-img">
+              {% endif %}
 
-                      {% if col.image %}
-                        <img src="{{ url_for('slowly-module.stamp_image', filename=col.image) }}" id="stamp-{{ col.image }}" class="card-img-top" style="padding:20px">
-                      {% else %}
-                        <img src="{{ url_for('static', filename='stamp-placeholder.png') }}" class="card-img-top" style="padding:20px">
-                      {% endif %}
-
-                      <div class="card-body">
-                        <center><h5 class="card-title">{{ col.name }}</h5></center>
-                      </div>
-                    </div>
-                  </td>
-                {% endfor %}
-              </tr>
-            {% endfor %}
+              <div class="card-body text-center">
+                <span class="card-title sw-card-text">{{ stamp.name }}</span>
+              </div>
+            </div>
           {% endfor %}
-        </table>
-      </div>
-    </td>
-  </tr>
-
-  <tr>
-    <td style="height:300px">
-    </td>
-  </tr>
-</table>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">

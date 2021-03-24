@@ -1,4 +1,53 @@
-.card:hover {
+a {
+  text-decoration: none;
+}
+
+.sw-page-header {
+  background-color:#d1d1d1;
+  padding: 30px 30px;
+  margin: 40px 0px;
+  font-weight: bold;
+  font-size: 30pt;
+  font-family: sans-serif;
+}
+
+.sw-display-card-nostyle {
+  width: 120pt;
+  height: 200pt;
+  margin: 10px 10px;
+  border-color: #bfbfbf;
+}
+
+.sw-display-card {
+  width: 120pt;
+  min-height: 170pt;
+  margin: 10px 10px;
+  border-color: #bfbfbf;
+  border-style: dashed;
+}
+
+.sw-display-card:hover {
   border-style: solid;
   border-width: thick;
+  border-color: #a1a1a1;
+}
+
+.sw-add-card-img {
+  width: 50px;
+  height: 50px;
+  margin: 50px;
+}
+
+.sw-card-img {
+  padding: 2px;
+}
+
+.sw-card-text {
+  font-family: Helvetica, Arial;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+.sw-show-link {
+  cursor: pointer;
 }

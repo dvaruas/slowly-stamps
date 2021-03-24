@@ -13,7 +13,7 @@ class Users(db.Model):
     name = db.Column(db.String(150), nullable=False)
     image_id = db.Column(db.String(10), nullable=True, unique=True)
     used_stamps = db.relationship('Stamps', secondary=used_stamps,
-        backref=db.backref('users', lazy='dynamic'), cascade="all")
+        backref=db.backref('users', lazy='dynamic'), cascade="save-update")
 
 
 class StampCategories(db.Model):

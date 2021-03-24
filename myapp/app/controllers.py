@@ -8,8 +8,6 @@ from app.models import Users, Stamps, StampCategories
 from app import db
 
 
-NUM_IN_ROW = 6
-
 app_mod = Blueprint('slowly-module', __name__)
 
 
@@ -19,33 +17,14 @@ def list_users():
     num_users = Users.query.count()
     num_stamps = Stamps.query.count()
 
-    users = {}
+    users = []
     for row in Users.query.all():
-        users[row.id] = {"name" : row.name, "image" : row.image_id,
-            "count" : len(row.used_stamps)}
+        users.append({"id" : row.id, "name" : row.name, "image" : row.image_id,
+            "count" : len(row.used_stamps)})
+    users.sort(key=lambda x:x["count"], reverse=True)
 
-    arranged_u_ids = sorted(users.keys(), key=lambda x:users[x]["count"], reverse=True)
-
-    show_users = []
-    user_row = ["add_user"]
-    for id in arranged_u_ids[:(NUM_IN_ROW - 1)]:
-        user_row.append({"id" : id, "name" : users[id]["name"], "image" : users[id]["image"]})
-    show_users.append(user_row)
-
-    user_row = []
-    i = 0
-    for id in arranged_u_ids[NUM_IN_ROW - 1:]:
-        user_row.append({"id" : id, "name" : users[id]["name"], "image" : users[id]["image"]})
-        i += 1
-        if i == NUM_IN_ROW:
-            i = 0
-            show_users.append(user_row)
-            user_row = []
-    if user_row:
-        show_users.append(user_row)
-
-    return render_template("users.html", users=show_users, num_in_rows=NUM_IN_ROW,
-        num_users=num_users, num_stamps=num_stamps)
+    return render_template("users.html", users=users, num_users=num_users,
+        num_stamps=num_stamps)
 
 
 @app_mod.route('/user_image/<filename>')
@@ -59,30 +38,22 @@ def user_detail(userid):
     if user_details:
         num_users = Users.query.count()
         num_stamps = Stamps.query.count()
+        user_info = {"id" : user_details.id, "name" : user_details.name,
+            "image_id" : user_details.image_id}
 
         stamps_dict = {}
         used_stamps = [sObj.id for sObj in user_details.used_stamps]
         for category in StampCategories.query.all():
-            i = 0
-            stamp_row = []
             stamps = []
             for stamp in category.stamps:
                 if stamp.id in used_stamps:
                     continue
-                stamp_row.append({"id" : stamp.id, "name" : stamp.name, "image" : stamp.image_id})
-                i += 1
-                if i == NUM_IN_ROW:
-                    i = 0
-                    stamps.append(stamp_row)
-                    stamp_row = []
-            if stamp_row:
-                stamps.append(stamp_row)
+                stamps.append({"id" : stamp.id, "name" : stamp.name, "image" : stamp.image_id})
             if stamps:
                 stamps_dict[category.name] = stamps
 
-        return render_template("user_detail.html", stamps=stamps_dict, num_in_rows=NUM_IN_ROW,
-            num_users=num_users, num_stamps=num_stamps,
-            user_info={"id" : user_details.id, "name" : user_details.name, "image_id" : user_details.image_id})
+        return render_template("user_detail.html", stamps=stamps_dict,
+            num_users=num_users, num_stamps=num_stamps, user_info=user_info)
 
     return redirect(url_for('slowly-module.list_users'))
 
@@ -145,7 +116,6 @@ def edit_existing_user(userid):
     else:
         num_users = Users.query.count()
         num_stamps = Stamps.query.count()
-        conn.execute(f"select name, image_id from users where id is {userid}")
         return render_template("edit_user.html", num_users=num_users, num_stamps=num_stamps,
             user_id=userid, user_name=user_obj.name, user_image_id=user_obj.image_id)
 
@@ -154,6 +124,8 @@ def edit_existing_user(userid):
 def delete_user(userid):
     uObj = Users.query.get(userid)
     if uObj:
+        if uObj.image_id and os.path.exists(os.path.join(current_app.config["USER_IMAGES_DIR"], uObj.image_id)):
+            os.remove(os.path.join(current_app.config["USER_IMAGES_DIR"], uObj.image_id))
         db.session.delete(uObj)
         db.session.commit()
     return redirect(url_for('slowly-module.list_users'))
@@ -171,21 +143,13 @@ def list_stamps():
 
     stamps_dict = {}
     for category in StampCategories.query.all():
-        i = 0
-        stamp_row = []
         stamps = []
         for stamp in category.stamps:
-            stamp_row.append({"id" : stamp.id, "name" : stamp.name, "image" : stamp.image_id})
-            i += 1
-            if i == NUM_IN_ROW:
-                i = 0
-                stamps.append(stamp_row)
-                stamp_row = []
-        if stamp_row:
-            stamps.append(stamp_row)
-        stamps_dict[category.name] = stamps
+            stamps.append({"id" : stamp.id, "name" : stamp.name, "image" : stamp.image_id})
+        if stamps:
+            stamps_dict[category.name] = stamps
 
-    return render_template("stamps.html", stamps=stamps_dict, num_in_rows=NUM_IN_ROW,
+    return render_template("stamps.html", stamps=stamps_dict,
         num_users=num_users, num_stamps=num_stamps)
 
 

@@ -2,44 +2,36 @@
 
 {% block content %}
 
-<center>
-<table class="my-5 w-50">
-  <tr>
-    <td style="background-color:#d1d1d1" colspan="2">
-      <h1 class="mx-5 my-5">Add Penpal</h1>
-    </td>
-  </tr>
-  <form action="{{ url_for('slowly-module.add_new_user') }}" method="post" enctype="multipart/form-data">
-  <tr>
-    <div class="row g-2 my-5">
-      <td style="padding:30px">
-      <div class="col-md">
+<form action="{{ url_for('slowly-module.add_new_user') }}" method="post" enctype="multipart/form-data">
+  <div class="container w-50">
+    <div class="row my-3">
+      <div class="col">
+        <div class="sw-page-header">Add PenPal</div>
+      </div>
+    </div>
+    <div class="row my-3">
+      <div class="col">
         <div class="form-floating">
-          <input type="text" class="form-control" id="inputPalName" placeholder="Enter name here" name="penPalName" required>
+          <input type="text" class="form-control" id="inputPalName"
+            placeholder="Enter name here" name="penPalName" required>
           <label for="inputPalName">Enter PalName here (*)</label>
         </div>
       </div>
-      </td>
-      <td style="padding:30px">
-      <div class="col-md">
+      <div class="col">
         <div class="mb-3">
           <label for="userImage" class="form-label-sm">Upload Image</label>
           <input class="form-control form-control-sm" id="userImage" type="file" name="penPalImage">
         </div>
       </div>
-      </td>
     </div>
-  </tr>
-  <tr>
-    <td colspan="2">
-      <button type="submit" class="btn btn-primary mx-2">Submit</button>
-      <a href="/users">
-        <button type="button" class="btn btn-primary mx-2">Cancel</button>
-      </a>
-    </td>
-  </tr>
-  </form>
-</table>
-</center>
-
+    <div class="row my-3">
+      <div class="col">
+        <button type="submit" class="btn btn-primary mx-2">Submit</button>
+        <a href="/users">
+          <button type="button" class="btn btn-primary mx-2">Cancel</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</form>
 {% endblock %}
