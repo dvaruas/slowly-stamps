@@ -33,7 +33,7 @@
             <div class="card text-dark" style="width: 10rem;">
               <a href="/user/{{ col.id }}" style="text-decoration:none">
                 {% if col.image %}
-                  <img src="{{ url_for('user_image', filename=col.image) }}" class="card-img-top" style="padding:20px">
+                  <img src="{{ url_for('slowly-module.user_image', filename=col.image) }}" class="card-img-top" style="padding:20px">
                 {% else %}
                   <img src="{{ url_for('static', filename='user-placeholder.jpg') }}" class="card-img-top" style="padding:20px">
                 {% endif %}

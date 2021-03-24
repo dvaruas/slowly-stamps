@@ -36,7 +36,7 @@
           <td style="padding:20px">
             <div class="card text-dark" style="width: 10rem;">
               {% if col.image %}
-                <img src="{{ url_for('stamp_image', filename=col.image) }}" class="card-img-top" style="padding:20px">
+                <img src="{{ url_for('slowly-module.stamp_image', filename=col.image) }}" class="card-img-top" style="padding:20px">
               {% else %}
                 <img src="{{ url_for('static', filename='stamp-placeholder.png') }}" class="card-img-top" style="padding:20px">
               {% endif %}

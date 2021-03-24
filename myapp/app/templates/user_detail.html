@@ -7,7 +7,7 @@
     <td style="width:20%">
       <div class="card text-dark" style="width: 10rem;">
         {% if user_info.image_id %}
-          <img src="{{ url_for('user_image', filename=user_info.image_id) }}" id="user-{{ user_info.image_id }}" class="card-img-top user-image" style="padding:20px">
+          <img src="{{ url_for('slowly-module.user_image', filename=user_info.image_id) }}" id="user-{{ user_info.image_id }}" class="card-img-top user-image" style="padding:20px">
         {% else %}
           <img src="{{ url_for('static', filename='user-placeholder.jpg') }}" class="card-img-top user-image" style="padding:20px">
         {% endif %}
@@ -41,7 +41,7 @@
                     <div id="selectStamp-{{ col.id }}" class="card text-dark selectStampsList" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="width:10rem;cursor:pointer;">
 
                       {% if col.image %}
-                        <img src="{{ url_for('stamp_image', filename=col.image) }}" id="stamp-{{ col.image }}" class="card-img-top" style="padding:20px">
+                        <img src="{{ url_for('slowly-module.stamp_image', filename=col.image) }}" id="stamp-{{ col.image }}" class="card-img-top" style="padding:20px">
                       {% else %}
                         <img src="{{ url_for('static', filename='stamp-placeholder.png') }}" class="card-img-top" style="padding:20px">
                       {% endif %}

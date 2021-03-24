@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap5.0.0-beta1.min.css') }}" />
+    <script type="text/javascript" src="{{ url_for('static', filename='bootstrap5.0.0-beta1.bundle.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.5.1.min.js') }}"></script>
+
+    <title>Slowly Stamps tracker</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            <img src="{{ url_for('static', filename='slowly-icon.jpeg') }}" alt="slowly" width="40" height="40">
+            Slowly stamps
+          </a>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-5">
+              <li class="nav-item mx-3">
+                <a href="/users">
+                  {% block user_button %}
+                  <button type="button" class="btn btn-outline-primary">
+                    Penpals  <span class="badge bg-dark px-2">{{ num_users }}</span>
+                  </button>
+                  {% endblock %}
+                </a>
+              </li>
+              <li class="nav-item mx-3">
+                <a href="/stamps">
+                  {% block stamp_button %}
+                  <button type="button" class="btn btn-outline-primary">
+                    Stamps  <span class="badge bg-dark px-2">{{ num_stamps }}</span>
+                  </button>
+                  {% endblock %}
+                </a>
+              </li>
+              <li class="nav-item mx-3">
+                <a href="http://web.getslowly.com/" target="_blank">
+                  <button type="button" class="btn btn-outline-success">
+                    Slowly Web
+                  </button>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      {% block content %}
+      {% endblock %}
+    </main>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
+  </body>
+</html>
