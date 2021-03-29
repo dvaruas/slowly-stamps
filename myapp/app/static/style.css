@@ -13,7 +13,7 @@ a {
 
 .sw-display-card-nostyle {
   width: 120pt;
-  height: 200pt;
+  min-height: 200pt;
   margin: 10px 10px;
   border-color: #bfbfbf;
 }
@@ -23,13 +23,14 @@ a {
   min-height: 170pt;
   margin: 10px 10px;
   border-color: #bfbfbf;
+  border-width: medium;
   border-style: dashed;
 }
 
 .sw-display-card:hover {
-  border-style: solid;
-  border-width: thick;
-  border-color: #a1a1a1;
+  border-width: medium;
+  border-color: #595959;
+  border-style: dashed;
 }
 
 .sw-add-card-img {
