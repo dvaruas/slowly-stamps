@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM python:slim
 LABEL maintainer="Saurav Das [saurav.das37@gmail.com]"
 
 WORKDIR /app

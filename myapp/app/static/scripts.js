@@ -1,4 +1,4 @@
-$("#new-category").change(function() {
+$("#new-category").change(function () {
   if ($("#new-category").prop("checked") == true) {
     $("#newCategoryTextArea").prop("disabled", false);
   } else {
@@ -6,7 +6,7 @@ $("#new-category").change(function() {
   }
 });
 
-$("#staticBackdrop").on("show.bs.modal", function(e) {
+$("#staticBackdrop").on("show.bs.modal", function (e) {
   $(".selectStampsList").removeClass("bg-secondary");
   $(".selectStampsList").removeClass("text-white");
   $(".selectStampsList").addClass("text-dark");
@@ -43,7 +43,7 @@ $("#staticBackdrop").on("show.bs.modal", function(e) {
 
     let stampHref = `/static/stamp-placeholder.png`;
     let sImageId = $(e.relatedTarget).children("img").attr("id");
-    if (sImageId != undefined ) {
+    if (sImageId != undefined) {
       let stampImageId = sImageId.substring(6);
       stampHref = `/stamp_image/${stampImageId}`;
     }
@@ -67,12 +67,7 @@ $("#staticBackdrop").on("show.bs.modal", function(e) {
   }
 });
 
-$("#staticBackdrop").on("shown.bs.modal", function(e) {
-  // bootstrap keeps adding padding to the harmless user pic, restore our values ignoring bootstrap!
-  $(".sw-display-card-nostyle").css({"padding-right" : "0px", "margin-right" : "10px"});
-});
-
-$("#common-modal-cancel-btn").click(function() {
+$("#common-modal-cancel-btn").click(function () {
   $(".selectStampsList").removeClass("bg-secondary");
   $(".selectStampsList").removeClass("text-white");
   $(".selectStampsList").addClass("text-dark");
