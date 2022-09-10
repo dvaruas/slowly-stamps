@@ -1,13 +1,11 @@
 import os
 
+from config import DevConfig, ProdConfig
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-from config import DevConfig, ProdConfig
-
-
 app = Flask(__name__)
-if os.environ.get("FLASK_ENV", "development") == "development":
+if os.environ.get("USE_DEV", "true") == "true":
     app.config.from_object(DevConfig)
 else:
     app.config.from_object(ProdConfig)
@@ -19,9 +17,9 @@ for path_env_var in ["RESOURCES_DIR", "USER_IMAGES_DIR", "STAMP_IMAGES_DIR"]:
 
 db = SQLAlchemy(app)
 
-from app.models import Users, Stamps, StampCategories
 db.create_all()
 db.session.commit()
 
 from app.controllers import app_mod as slowly_views
+
 app.register_blueprint(slowly_views)

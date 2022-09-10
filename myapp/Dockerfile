@@ -4,6 +4,6 @@ LABEL maintainer="Saurav Das [saurav.das37@gmail.com]"
 WORKDIR /app
 
 COPY . .
-ENV FLASK_ENV=production
+ENV USE_DEV=false
 
 RUN pip install -r requirements.txt
