@@ -1,19 +1,19 @@
 import os
 import random
 import string
+
 from flask import (
     Blueprint,
-    request,
-    render_template,
-    redirect,
-    url_for,
-    send_from_directory,
     current_app,
+    redirect,
+    render_template,
+    request,
+    send_from_directory,
+    url_for,
 )
 
-from app.models import Users, Stamps, StampCategories
 from app import db
-
+from app.models import StampCategories, Stamps, Users
 
 app_mod = Blueprint("slowly-module", __name__)
 

@@ -1,6 +1,5 @@
 from app import db
 
-
 used_stamps = db.Table(
     "used_stamps",
     db.Column("user_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
