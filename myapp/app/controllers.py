@@ -2,6 +2,8 @@ import os
 import random
 import string
 
+from app import db
+from app.models import StampCategories, Stamps, Users
 from flask import (
     Blueprint,
     current_app,
@@ -11,9 +13,6 @@ from flask import (
     send_from_directory,
     url_for,
 )
-
-from app import db
-from app.models import StampCategories, Stamps, Users
 
 app_mod = Blueprint("slowly-module", __name__)
 
