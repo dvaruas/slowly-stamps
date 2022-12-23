@@ -1,6 +1,6 @@
 # Current Dependencies
 
-| package | version | last updated |
-|---------|----------|-------------|
-| Bootstrap | v5.2.1 | 10.09.2022 |
-| jQuery    | v3.6.1 | 10.09.2022 |
+|  package  | version | updated on |
+|-----------|---------|------------|
+| Bootstrap |  v5.2.3 | 23.12.2022 |
+| jQuery    |  v3.6.3 | 23.12.2022 |
