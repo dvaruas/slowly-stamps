@@ -1,4 +1,4 @@
-# Slowly stamps tracker :mailbox_with_mail:
+# Slowly stamps tracker :mailbox_with_mail
 
 Do you like sending new stamps to your penpals when using
 [Slowly](https://slowly.app/en/)?
@@ -10,7 +10,7 @@ Well, this small and simple **Flask** app is perfect to help you keep track of
 which stamps you have sent to which of your pals.
 
 **<< [UPDATE] >>**  
-There's an alternate way carry out the same task. Ain't fully fleshed out yet
+There's an alternate way to essentially carry out the same task. Ain't fully fleshed out yet
 but [this](https://gist.github.com/dvaruas/2cf949033514af30f04da1b12003a059)
 Github gist lays down the steps one can perform to not require any tracking.
 (There is a caveat though so read it carefully!)
