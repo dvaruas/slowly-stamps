@@ -1,40 +1,80 @@
-from app import db
+from typing import List
 
-used_stamps = db.Table(
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, ForeignKey, String, Table
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from typing_extensions import Annotated
+
+str_10 = Annotated[str, 10]
+str_150 = Annotated[str, 150]
+
+
+class Base(DeclarativeBase):
+    pass
+
+
+db = SQLAlchemy(model_class=Base)
+
+used_stamps = Table(
     "used_stamps",
-    db.Column("user_id", db.Integer, db.ForeignKey("users.id"), primary_key=True),
-    db.Column("stamp_id", db.Integer, db.ForeignKey("stamps.id"), primary_key=True),
+    Base.metadata,
+    Column("user_id", ForeignKey("users.id", ondelete="CASCADE")),
+    Column("stamp_id", ForeignKey("stamps.id", ondelete="CASCADE")),
 )
 
 
 class Users(db.Model):
     __tablename__ = "users"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), nullable=False)
-    image_id = db.Column(db.String(10), nullable=True, unique=True)
-    used_stamps = db.relationship(
-        "Stamps",
+    id: Mapped[int] = mapped_column(
+        primary_key=True,
+        autoincrement="auto",
+    )
+    name: Mapped[str_150] = mapped_column(
+        String(150),
+        nullable=False,
+    )
+    image_id: Mapped[str_10] = mapped_column(
+        String(10),
+        unique=True,
+        nullable=True,
+    )
+    used_stamps: Mapped[List["Stamps"]] = relationship(
         secondary=used_stamps,
-        backref=db.backref("users", lazy="dynamic"),
-        cascade="save-update",
     )
 
 
 class StampCategories(db.Model):
     __tablename__ = "stamp_categories"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), nullable=False, unique=True)
-    stamps = db.relationship("Stamps", backref="category", cascade="all")
+    id: Mapped[int] = mapped_column(
+        primary_key=True,
+        autoincrement="auto",
+    )
+    name: Mapped[str_150] = mapped_column(
+        String(150),
+        unique=True,
+        nullable=False,
+    )
+    stamps: Mapped[List["Stamps"]] = relationship()
 
 
 class Stamps(db.Model):
     __tablename__ = "stamps"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), nullable=False)
-    category_id = db.Column(
-        db.Integer, db.ForeignKey("stamp_categories.id"), nullable=False
+    id: Mapped[int] = mapped_column(
+        primary_key=True,
+        autoincrement="auto",
     )
-    image_id = db.Column(db.String(10), nullable=True, unique=True)
+    name: Mapped[str_150] = mapped_column(
+        String(150),
+        nullable=False,
+    )
+    category_id: Mapped[int] = mapped_column(
+        ForeignKey(
+            "stamp_categories.id",
+            ondelete="CASCADE",
+        ),
+    )
+    image_id: Mapped[str_10] = mapped_column(
+        String(10),
+        nullable=True,
+        unique=True,
+    )

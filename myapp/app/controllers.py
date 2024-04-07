@@ -231,6 +231,7 @@ def add_new_stamp():
                     newCategoryName = request.form["newCategoryName"].strip()
                     category_Obj = StampCategories(name=newCategoryName)
                     db.session.add(category_Obj)
+                    db.session.commit()
             else:
                 category_Obj = StampCategories.query.get(chosen_category)
 
@@ -259,13 +260,17 @@ def add_new_stamp():
 
                 if new_file_name:
                     new_stamp = Stamps(
-                        name=stampName, category=category_Obj, image_id=new_file_name
+                        name=stampName,
+                        category_id=category_Obj.id,
+                        image_id=new_file_name,
                     )
                 else:
-                    new_stamp = Stamps(name=stampName, category=category_Obj)
+                    new_stamp = Stamps(
+                        name=stampName,
+                        category_id=category_Obj.id,
+                    )
                 db.session.add(new_stamp)
-
-            db.session.commit()
+                db.session.commit()
 
         return redirect(url_for("slowly-module.list_stamps"))
 
