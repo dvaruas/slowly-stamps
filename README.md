@@ -1,4 +1,4 @@
-# Slowly stamps tracker :mailbox_with_mail
+# Slowly stamps tracker :mailbox_with_mail:
 
 Do you like sending new stamps to your penpals when using
 [Slowly](https://slowly.app/en/)?
