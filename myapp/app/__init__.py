@@ -1,14 +1,11 @@
 import os
 
 from app.models import db
-from config import DevConfig, ProdConfig
+from config import Config
 from flask import Flask
 
 app = Flask(__name__)
-if os.environ.get("USE_DEV", "true") == "true":
-    app.config.from_object(DevConfig)
-else:
-    app.config.from_object(ProdConfig)
+app.config.from_object(Config)
 
 # Create paths which might not exist
 for path_env_var in [
