@@ -11,18 +11,9 @@ which stamps you have sent to which of your pals.
 
 ## Running the App
 
-* Install requirements using -
-  
-  ```bash
-  pip3 install -r myapp/requirements.txt
-  ```
-  
-* Once setup, simply run the app using
-  
-  ```bash
-  python3 myapp/wsgi.py
-  ```
-
+* Prerequisites - install [make](https://www.gnu.org/software/make/) in your system.
+* One time run - `make setup` to setup the `venv`, and `make install` to install the requirements for the app.
+* Once setup, simply run the app using - `make run`.
 * Access frontend at : <http://localhost:5000>
 
 ## Resources
