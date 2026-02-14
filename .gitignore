@@ -1,6 +1,7 @@
 # Custom
 resources/
 utils/
+scripts/find_stamps_diff_config.json
 
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
