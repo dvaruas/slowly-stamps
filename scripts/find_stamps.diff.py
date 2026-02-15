@@ -5,7 +5,7 @@ import sys
 import unicodedata
 import urllib.request
 from difflib import SequenceMatcher
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 #### ------------------------ README -------------------------------------------
 # This script fetches the user's stamps from Slowly and compares them with the
@@ -14,7 +14,8 @@ from typing import Any, Dict, List
 
 ### Config file structure
 # {
-#     "auth_token": "Bearer ...", # replace with your own auth token
+#     "auth_token": "Bearer ...", # Mandatory. Replace with your own auth token
+#     "ignored_stamps": [] # Optional. List of stamp names to ignore
 # }
 #### ---------------------------------------------------------------------------
 
@@ -61,8 +62,11 @@ if __name__ == "__main__":
         print("config file not found at: {}".format(config_path))
         sys.exit(-1)
 
+    config_data: Optional[Dict[str, Any]] = None
     with open(config_path, "r") as fr:
         config_data = json.load(fr)
+    auth_token: str = config_data["auth_token"]
+    ignored_stamps: List[str] = config_data.get("ignored_stamps", [])
 
     # 1. Get the general info of the stamps
     stamps_data: List[Any] = []
@@ -85,7 +89,7 @@ if __name__ == "__main__":
                 MY_INFO_URL,
                 headers={
                     "user-agent": "python3",
-                    "authorization": config_data["auth_token"],
+                    "authorization": auth_token,
                     "content-type": "application/json",
                 },
                 method="POST",
@@ -130,17 +134,21 @@ if __name__ == "__main__":
     stamp_similarities: Dict[int, float] = {}
     for index in stamps_data_owned_indexes:
         stamp_info = stamps_data[index]
-        owned_stamp_name = stamp_info["name"]
+        owned_stamp_name: str = stamp_info["name"]
+
+        if owned_stamp_name in ignored_stamps:
+            print(f"[IGNORED] {owned_stamp_name}")
+            continue
 
         stamp_similarities.clear()
         for i, stamp_name in enumerate(my_current_stamps_in_db):
             similarity_score = measure_similarity(owned_stamp_name, stamp_name)
             if similarity_score == 1.0:
-                print(f"[FOUND] {stamp_info['name']}")
+                print(f"[FOUND] {owned_stamp_name}")
                 break
             stamp_similarities[i] = similarity_score
         else:
-            print(f"[NOT FOUND] {stamp_info['name']}")
+            print(f"[NOT FOUND] {owned_stamp_name}")
             similarities_sorted = sorted(
                 stamp_similarities,
                 key=stamp_similarities.get,
