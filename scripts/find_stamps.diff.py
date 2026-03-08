@@ -65,6 +65,9 @@ if __name__ == "__main__":
     config_data: Optional[Dict[str, Any]] = None
     with open(config_path, "r") as fr:
         config_data = json.load(fr)
+    if config_data is None:
+        print("no config data loaded")
+        sys.exit(-1)
     auth_token: str = config_data["auth_token"]
     ignored_stamps: List[str] = config_data.get("ignored_stamps", [])
 
@@ -151,7 +154,7 @@ if __name__ == "__main__":
             print(f"[NOT FOUND] {owned_stamp_name}")
             similarities_sorted = sorted(
                 stamp_similarities,
-                key=stamp_similarities.get,
+                key=lambda x: stamp_similarities[x],
                 reverse=True,
             )
             for j, s_index in enumerate(similarities_sorted):
