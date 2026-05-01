@@ -9,3 +9,7 @@ install:
 .PHONY: run
 run:
 	./venv/bin/python3 myapp/wsgi.py
+
+.PHONY: diff
+diff:
+	./venv/bin/python3 scripts/find_stamps.diff.py
